@@ -1,6 +1,6 @@
 # Quick Deployment Guide with Docker Compose
 
-This guide explains how to quickly deploy Xboard using Docker Compose. By default, it uses SQLite database, eliminating the need for a separate MySQL installation.
+This guide explains how to quickly deploy Xboard-Plus using Docker Compose. By default, it uses SQLite database, eliminating the need for a separate MySQL installation.
 
 ### 1. Environment Preparation
 

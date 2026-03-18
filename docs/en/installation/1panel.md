@@ -1,6 +1,6 @@
 # Quick Deployment Guide for 1Panel
 
-This guide explains how to deploy Xboard using 1Panel.
+This guide explains how to deploy Xboard-Plus using 1Panel.
 
 ## 1. Environment Preparation
 
@@ -61,7 +61,7 @@ location ^~ / {
 ```
 > The `/ws/` location enables WebSocket real-time node synchronization via `ws-server`. This service is enabled by default and can be toggled in Admin Panel > System Settings > Server.
 
-3. Install Xboard:
+3. Install Xboard-Plus:
 ```bash
 # Enter site directory
 cd /opt/1panel/apps/openresty/openresty/www/sites/xboard/index
@@ -158,7 +158,7 @@ docker compose run -it --rm web php artisan xboard:install
 ⚠️ Important Configuration Notes:
 1. Database Configuration
    - Database Host: Choose based on your deployment:
-     1. If database and Xboard are in the same network, use `mysql`
+     1. If database and Xboard-Plus are in the same network, use `mysql`
      2. If connection fails, go to: Database -> Select Database -> Connection Info -> Container Connection, and use the "Host" value
      3. If using external database, enter your actual database host
    - Database Port: `3306` (default port unless configured otherwise)

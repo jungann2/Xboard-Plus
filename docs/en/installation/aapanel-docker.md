@@ -1,4 +1,4 @@
-# Xboard Deployment Guide for aaPanel + Docker Environment
+# Xboard-Plus Deployment Guide for aaPanel + Docker Environment
 
 ## Table of Contents
 1. [Requirements](#requirements)
@@ -56,7 +56,7 @@ In the aaPanel dashboard, install:
    - Database: Select MySQL
    - PHP Version: Select Pure Static
 
-#### 3.2 Deploy Xboard
+#### 3.2 Deploy Xboard-Plus
 ```bash
 # Enter site directory
 cd /www/wwwroot/your-domain
