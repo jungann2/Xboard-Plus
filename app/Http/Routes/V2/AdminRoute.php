@@ -6,6 +6,7 @@ use App\Http\Controllers\V2\Admin\PlanController;
 use App\Http\Controllers\V2\Admin\Server\GroupController;
 use App\Http\Controllers\V2\Admin\Server\RouteController;
 use App\Http\Controllers\V2\Admin\Server\ManageController;
+use App\Http\Controllers\V2\Admin\Server\ParseShareLinkController;
 use App\Http\Controllers\V2\Admin\OrderController;
 use App\Http\Controllers\V2\Admin\UserController;
 use App\Http\Controllers\V2\Admin\StatController;
@@ -82,6 +83,7 @@ class AdminRoute
                 $router->post('/drop', [ManageController::class, 'drop']);
                 $router->post('/copy', [ManageController::class, 'copy']);
                 $router->post('/sort', [ManageController::class, 'sort']);
+                $router->post('/parse-share-link', [ParseShareLinkController::class, 'parse']);
             });
 
             // Order

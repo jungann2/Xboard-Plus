@@ -67,8 +67,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
+        // 读取自定义 API 路径前缀（后台设置），未设置则使用默认 /api/v1 和 /api/v2
+        $customPrefix = admin_setting('server_api_prefix');
+
+        // V1 路由
+        $v1Prefix = $customPrefix ? '/' . trim($customPrefix, '/') . '/v1' : '/api/v1';
         Route::group([
-            'prefix' => '/api/v1',
+            'prefix' => $v1Prefix,
             'middleware' => 'api',
             'namespace' => $this->namespace
         ], function ($router) {
@@ -77,9 +82,10 @@ class RouteServiceProvider extends ServiceProvider
             }
         });
 
-
+        // V2 路由
+        $v2Prefix = $customPrefix ? '/' . trim($customPrefix, '/') . '/v2' : '/api/v2';
         Route::group([
-            'prefix' => '/api/v2',
+            'prefix' => $v2Prefix,
             'middleware' => 'api',
             'namespace' => $this->namespace
         ], function ($router) {
@@ -87,5 +93,29 @@ class RouteServiceProvider extends ServiceProvider
                 $this->app->make('App\\Http\\Routes\\V2\\' . basename($file, '.php'))->map($router);
             }
         });
+
+        // 兼容：如果设置了自定义前缀，同时保留默认 /api/v1 和 /api/v2 路由
+        // 确保旧节点不会因为后台改了前缀而断连
+        if ($customPrefix) {
+            Route::group([
+                'prefix' => '/api/v1',
+                'middleware' => 'api',
+                'namespace' => $this->namespace
+            ], function ($router) {
+                foreach (glob(app_path('Http//Routes//V1') . '/*.php') as $file) {
+                    $this->app->make('App\\Http\\Routes\\V1\\' . basename($file, '.php'))->map($router);
+                }
+            });
+
+            Route::group([
+                'prefix' => '/api/v2',
+                'middleware' => 'api',
+                'namespace' => $this->namespace
+            ], function ($router) {
+                foreach (glob(app_path('Http//Routes//V2') . '/*.php') as $file) {
+                    $this->app->make('App\\Http\\Routes\\V2\\' . basename($file, '.php'))->map($router);
+                }
+            });
+        }
     }
 }

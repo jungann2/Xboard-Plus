@@ -48,6 +48,7 @@ class ConfigSave extends FormRequest
         'subscribe_path' => '',
         // server
         'server_token' => 'nullable|min:16',
+        'server_api_prefix' => 'nullable|regex:/^[a-zA-Z0-9_\-\/]+$/',
         'server_pull_interval' => 'integer',
         'server_push_interval' => 'integer',
         'device_limit_mode' => 'integer',
@@ -131,6 +132,7 @@ class ConfigSave extends FormRequest
             'app_url.url' => '站点URL格式不正确，必须携带http(s)://',
             'subscribe_url.url' => '订阅URL格式不正确，必须携带http(s)://',
             'server_token.min' => '通讯密钥长度必须大于16位',
+            'server_api_prefix.regex' => '自定义API路径只能包含字母、数字、下划线、横线和斜杠',
             'tos_url.url' => '服务条款URL格式不正确，必须携带http(s)://',
             'telegram_webhook_url.url' => 'Telegram Webhook地址格式不正确，必须携带http(s)://',
             'telegram_discuss_link.url' => 'Telegram群组地址必须为URL格式，必须携带http(s)://',
