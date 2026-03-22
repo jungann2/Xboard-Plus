@@ -34,6 +34,7 @@
     }
   </script>
   <div id="app"></div>
+  <script defer src="/assets/admin/assets/xboard-plus-plugins.js?v={{ time() }}"></script>
   {!! $theme_config['custom_html'] !!}
 </body>
 

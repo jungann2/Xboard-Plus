@@ -41,9 +41,9 @@ class RegisterService
             }
         }
 
-        // 检查验证码
+        // 检查验证码（注册属于前台场景）
         $captchaService = app(CaptchaService::class);
-        [$captchaValid, $captchaError] = $captchaService->verify($request);
+        [$captchaValid, $captchaError] = $captchaService->verify($request, 'frontend');
         if (!$captchaValid) {
             return [false, $captchaError];
         }

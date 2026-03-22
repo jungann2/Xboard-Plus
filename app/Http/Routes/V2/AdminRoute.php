@@ -7,6 +7,7 @@ use App\Http\Controllers\V2\Admin\Server\GroupController;
 use App\Http\Controllers\V2\Admin\Server\RouteController;
 use App\Http\Controllers\V2\Admin\Server\ManageController;
 use App\Http\Controllers\V2\Admin\Server\ParseShareLinkController;
+use App\Http\Controllers\V2\Admin\SecurityCardController;
 use App\Http\Controllers\V2\Admin\OrderController;
 use App\Http\Controllers\V2\Admin\UserController;
 use App\Http\Controllers\V2\Admin\StatController;
@@ -268,6 +269,16 @@ class AdminRoute
                 $router->get('stats', [TrafficResetController::class, 'stats']);
                 $router->get('user/{userId}/history', [TrafficResetController::class, 'userHistory']);
                 $router->post('reset-user', [TrafficResetController::class, 'resetUser']);
+            });
+
+            // 密保卡管理
+            $router->group([
+                'prefix' => 'security-card'
+            ], function ($router) {
+                $router->post('/generate', [SecurityCardController::class, 'generate']);
+                $router->get('/status', [SecurityCardController::class, 'status']);
+                $router->get('/view', [SecurityCardController::class, 'view']);
+                $router->post('/disable', [SecurityCardController::class, 'disable']);
             });
         });
 

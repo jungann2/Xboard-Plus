@@ -68,7 +68,7 @@
     @foreach($scripts as $js)
       <script type="module" crossorigin src="/assets/admin/{{ $js }}"></script>
     @endforeach
-    <script defer src="/assets/admin/assets/xboard-plus-plugins.js"></script>
+    <script defer src="/assets/admin/assets/xboard-plus-plugins.js?v={{ time() }}"></script>
   @else
     {{-- Fallback: hardcoded paths for backward compatibility --}}
     <script type="module" crossorigin src="/assets/admin/assets/index.js"></script>
@@ -77,7 +77,7 @@
     <script src="/assets/admin/locales/en-US.js"></script>
     <script src="/assets/admin/locales/zh-CN.js"></script>
     <script src="/assets/admin/locales/ko-KR.js"></script>
-    <script defer src="/assets/admin/assets/xboard-plus-plugins.js"></script>
+    <script defer src="/assets/admin/assets/xboard-plus-plugins.js?v={{ time() }}"></script>
   @endif
 </head>
 

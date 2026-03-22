@@ -37,6 +37,38 @@ docker compose up -d
 > After installation, visit: http://SERVER_IP:7001  
 > ⚠️ Make sure to save the admin credentials shown during installation
 
+## 🔐 Xboard-Plus 特色功能 / Exclusive Features
+
+Xboard-Plus 在原版 Xboard 基础上增加了多项安全增强与运维便捷功能：
+
+### 🛡️ 多层验证码系统 / Multi-layer CAPTCHA
+
+支持本地字符验证码（可配置字符集、长度）和算术验证码，可独立控制前台/后台启用，无需依赖第三方服务，有效防御暴力破解和自动化攻击。
+
+| 前台登录 / Frontend Login | 后台登录 / Admin Login |
+|:---:|:---:|
+| ![前台登录](./docs/images/front-desk-login.png) | ![后台登录](./docs/images/back-end-login.png) |
+
+### 📊 密保卡系统 / Security Card
+
+后台管理员登录支持密保卡二次验证（12×12 矩阵），每次登录随机抽取坐标验证，支持打印和导出图片，为管理后台提供额外的物理安全层。
+
+![验证码与密保卡管理](./docs/images/verification-code-security-card.png)
+
+### 📋 一键导入节点 / One-click Node Import
+
+在节点管理对话框中粘贴 VasmaX 分享链接（支持 vless / vmess / trojan / hysteria2 / tuic / anytls），自动解析并填入所有配置字段，大幅提升节点录入效率。
+
+![一键导入节点](./docs/images/one-click-node-addition.png)
+
+### 🌐 多语言界面 / Multilingual UI
+
+| 中文前台 | 中文后台 | English Frontend | English Admin |
+|:---:|:---:|:---:|:---:|
+| ![cn_user](./docs/images/cn_user.png) | ![cn_admin](./docs/images/cn_admin.png) | ![user](./docs/images/user.png) | ![admin](./docs/images/admin.png) |
+
+---
+
 ## 📖 Documentation
 
 ### 🔄 Upgrade Notice
@@ -65,9 +97,8 @@ docker compose up -d
 - Caching: Redis + Octane Cache
 
 ## 📷 Preview
-![Admin Preview](./docs/images/admin.png)
 
-![User Preview](./docs/images/user.png)
+> See [Exclusive Features](#-xboard-plus-特色功能--exclusive-features) section above for full screenshots.
 
 ## ⚠️ Disclaimer
 

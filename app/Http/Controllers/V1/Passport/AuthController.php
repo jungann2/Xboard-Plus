@@ -11,6 +11,8 @@ use App\Services\Auth\LoginService;
 use App\Services\Auth\MailLinkService;
 use App\Services\Auth\RegisterService;
 use App\Services\AuthService;
+use App\Services\CaptchaService;
+use App\Http\Controllers\V2\Admin\SecurityCardController;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -71,13 +73,40 @@ class AuthController extends Controller
      */
     public function login(AuthLogin $request)
     {
+        // 根据请求路径自动判断场景（不信任前端传入的 scene 参数）
+        $securePath = admin_setting('secure_path', '');
+        $scene = ($securePath && str_contains($request->path(), $securePath)) ? 'admin' : 'frontend';
+
+        $captchaService = app(CaptchaService::class);
+        [$captchaValid, $captchaError] = $captchaService->verify($request, $scene);
+        if (!$captchaValid) {
+            return $this->fail($captchaError);
+        }
+
         $email = $request->input('email');
         $password = $request->input('password');
 
-        [$success, $result] = $this->loginService->login($email, $password);
+        $loginResult = $this->loginService->login($email, $password);
+
+        [$success, $result] = $loginResult;
 
         if (!$success) {
             return $this->fail($result);
+        }
+
+        // 管理员密保卡验证（仅后台登录时要求）
+        // 使用统一的模糊错误信息，避免泄露密码是否正确
+        if ($scene === 'admin' && $result->is_admin && (int) admin_setting('security_card_enable', 0)) {
+            $challengeId = $request->input('security_card_challenge_id');
+            $answers = $request->input('security_card_answers', []);
+
+            if (empty($challengeId) || empty($answers)) {
+                return $this->fail([400, '登录验证失败']);
+            }
+
+            if (!SecurityCardController::verifyChallengeForUser($challengeId, $answers, $result->id)) {
+                return $this->fail([400, '登录验证失败']);
+            }
         }
 
         $authService = new AuthService($result);

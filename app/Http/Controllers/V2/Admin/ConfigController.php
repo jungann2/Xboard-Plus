@@ -192,6 +192,12 @@ class ConfigController extends Controller
                 'password_limit_enable' => (bool) admin_setting('password_limit_enable', 1),
                 'password_limit_count' => admin_setting('password_limit_count', 5),
                 'password_limit_expire' => admin_setting('password_limit_expire', 60),
+                // 本地验证码
+                'local_captcha_char_enable' => (int) admin_setting('local_captcha_char_enable', 0),
+                'local_captcha_math_enable' => (int) admin_setting('local_captcha_math_enable', 0),
+                'local_captcha_charset' => admin_setting('local_captcha_charset', 'mixed'),
+                'local_captcha_length' => (int) admin_setting('local_captcha_length', 4),
+                'security_card_enable' => (bool) admin_setting('security_card_enable', 0),
                 // 保持向后兼容
                 'recaptcha_enable' => (bool) admin_setting('captcha_enable', 0)
             ],
@@ -212,6 +218,16 @@ class ConfigController extends Controller
     public function save(ConfigSave $request)
     {
         $data = $request->validated();
+
+        // Normalize boolean switch values to integers (frontend sends true/false for toggle switches)
+        $boolToIntKeys = ['captcha_enable'];
+        foreach ($boolToIntKeys as $bk) {
+            if (array_key_exists($bk, $data)) {
+                if ($data[$bk] === true || $data[$bk] === 'true') $data[$bk] = 1;
+                elseif ($data[$bk] === false || $data[$bk] === 'false') $data[$bk] = 0;
+                else $data[$bk] = (int) $data[$bk];
+            }
+        }
 
         $templateKeys = [
             'subscribe_template_singbox' => 'singbox',
